@@ -1,0 +1,5 @@
+{
+    "api_url": "https://example.com/past_performance_data.csv",
+    "save_path": "data/raw/past_performance_data.csv",
+    "today_race_file": "data/raw/today_race_data.csv"
+}
