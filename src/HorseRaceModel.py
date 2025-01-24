@@ -1,5 +1,6 @@
 import pandas as pd
 
+from src.HorseRaceFeatureSet import HorseRaceFeatureSet
 from src.HorseRaceDataProcessor import HorseRaceDataProcessor
 
 
@@ -24,6 +25,26 @@ class HorseRaceModel:
             "show": 0.2
         }
     
+    def add_all_features_to_set(dataFrame, feature_set):
+        features_with_calculations = {
+            "Trainer Win % 2 yrs. This Race Type": lambda: (25.0, 15.0, 10.0, 85.0),
+            "Best Lifetime Speed": lambda: (30.0, 20.0, 15.0, 90.0),
+            "Speed Last Race": lambda: (20.0, 10.0, 5.0, 75.0),
+            # Add more features and their respective calculation logic here
+        }
+
+        for feature_name, calculation_logic in features_with_calculations.items():
+            feature_set.add_feature(feature_name)
+            win_percentage, place_percentage, show_percentage, accuracy = calculation_logic()
+            feature_set.set_feature_metrics(
+                feature_name, win_percentage, place_percentage, show_percentage, accuracy
+            )
+            
+    def create_features():
+        features_df = HorseRaceFeatureSet()
+
+        features_df.add_feature('')
+
 if __name__ == "__main__":
     # Step 1: Fetch and prepare data
     api_url = "https://example.com/past_performance_data.csv"

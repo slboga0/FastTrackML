@@ -1,5 +1,7 @@
 pandas
 requests
 python-dotenv
+selenium
 scikit-learn
 flask  # For a future web-based UI
+webdriver_manager

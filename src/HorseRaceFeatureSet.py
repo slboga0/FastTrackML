@@ -1,6 +1,5 @@
 
-from src import HorseRaceFeature
-
+from HorseRaceFeature import HorseRaceFeature
 
 class HorseRaceFeatureSet:
     def __init__(self):
@@ -12,9 +11,9 @@ class HorseRaceFeatureSet:
         else:
             raise ValueError(f"Feature '{feature_name}' already exists.")
 
-    def set_feature_metrics(self, feature_name, win_percentage, place_percentage, show_percentage, accuracy):
+    def set_feature_metrics(self, feature_name, feature_value):
         if feature_name in self.features:
-            self.features[feature_name].set_metrics(win_percentage, place_percentage, show_percentage, accuracy)
+            self.features[feature_name].set_metrics(feature_value)
         else:
             raise ValueError(f"Feature '{feature_name}' does not exist.")
 
