@@ -7,7 +7,7 @@ from HorseRaceDataFindPPs import scan_cards
 from HorseRaceDataReader import load_all_pp_cards
 from HorseRaceDataResultReader import load_all_result
 
-def gen_features(params, vrsn_name, saveFeatureDataToFile=False):
+def load_data(params, vrsn_name, track="*.DRF", saveFeatureDataToFile=False):
     """
     Generate features by merging Past-Performance (PP) data with race results.
     """
@@ -15,9 +15,9 @@ def gen_features(params, vrsn_name, saveFeatureDataToFile=False):
     # 1. Load Past Performance data
     # ----------------------------------------------------------------------
     logging.info("Scanning past performance cards.")
-    pp_cards = scan_cards(params.past_perf_data)
+    pp_cards = scan_cards(params.past_perf_data, track)
 
-    print (f'pp_cards = {pp_cards}')
+    #print (f'pp_cards = {pp_cards}')
     pp_all_df,field_map = load_all_pp_cards(pp_cards, params.field_mapping_csv)
 
     # Group by date and display counts
@@ -99,12 +99,13 @@ if __name__ == "__main__":
     class MockParams:
         past_perf_data = "path/to/pp_data"
         results_file_dir = "path/to/results"
-        field_mapping_csv = "File_Format_Description.csv"
+        field_mapping_csv = "fields_mapping.csv"
         output_feature_dir = "path/to/output"
 
     params = MockParams()
     version_name = "v1.0"
+    track = "SA*.DRF"
 
     # Generate features
-    df = gen_features(params, version_name, saveFeatureDataToFile=True)
+    df = load_data(params, version_name, track, saveFeatureDataToFile=True)
     print(df.head())

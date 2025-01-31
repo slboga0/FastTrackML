@@ -201,14 +201,14 @@ def download_past_performance_files(result=False):
 
 if __name__ == "__main__":
     
-    utility = "PP"
+    utility = "x"
     source_folder = r"C:\Users\SamBo\Projects\FastTrackML\data\raw\results"
     destination_folder = r"C:\Users\SamBo\Projects\FastTrackML\data\raw\results"
     archive_folder = r"C:\Users\SamBo\Projects\FastTrackML\data\raw\results\archive"
     #utility = "zip"
     #utility = "result"
 
-    if (utility == "pp"):
+    if (utility == "PP"):
         download_past_performance_files(result=False)
     elif (utility == "zip"):
         # Unzip files

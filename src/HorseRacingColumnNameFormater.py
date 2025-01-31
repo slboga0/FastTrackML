@@ -455,7 +455,7 @@ def expand_and_normalize(data):
 
     # Convert to DataFrame and save to CSV
     df = pd.DataFrame(expanded_data, columns=["field_position", "field_name"])
-    df.to_csv("File_Format_Description.csv", index=False)
+    df.to_csv("fields_mapping.csv", index=False)
 
     return expanded_data
 

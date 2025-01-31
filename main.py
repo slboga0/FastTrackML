@@ -16,7 +16,7 @@ def main():
     file_path = data_processor.fetch_past_performance_data(api_url, save_path)
     historical_data = data_processor.prepare_dataframe(file_path)
 
-    # Step 2: Split data into train, validation, and test
+    # Step 2: Split data into train,clear validation, and test
     train_data, validation_data, test_data = data_processor.split_data(historical_data)
 
     # Step 3: Train model

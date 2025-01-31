@@ -1,16 +1,16 @@
 import logging
 from pathlib import Path
 
-def get_pp_file_list(root_dir):
+def get_pp_file_list(root_dir, track="*.DRF"):
     """
     Recursively find all .DRF files in the given root directory.
     Returns a list of pathlib.Path objects.
     """
-    files = [path for path in Path(root_dir).rglob("*.DRF") if path.is_file()]
+    files = [path for path in Path(root_dir).rglob(track + '*.DRF') if path.is_file()]
     return files
 
 
-def scan_cards(path_cards):
+def scan_cards(path_cards, track):
     """
     Scans all PP (.DRF) files in `path_cards` directory and constructs a list of
     dicts with 'card' (file name without extension) and 'filename' (full Path).
@@ -18,7 +18,7 @@ def scan_cards(path_cards):
     logging.info("Scanning all PP files.")
 
     # Construct list of PP cards
-    file_list = get_pp_file_list(path_cards)
+    file_list = get_pp_file_list(path_cards, track)
 
     # Print total number of .DRF files found
     print(f"Number of .DRF files found: {len(file_list)}")

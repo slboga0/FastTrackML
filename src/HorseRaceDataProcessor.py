@@ -1,4 +1,6 @@
+import configparser
 import logging
+import os
 import pandas as pd
 import requests
 from sklearn.linear_model import LogisticRegression
@@ -58,8 +60,8 @@ def prepare_data_for_modeling(df, field_map, target_column):
     print (valid_rows.head())
     print (f'Number of valid rows: {valid_rows.sum()}')
 
-    features_df = features_df[valid_rows]
-    target_df = target_df[valid_rows]
+    #features_df = features_df[valid_rows]
+    #target_df = target_df[valid_rows]
 
     # Ensure there is data to split
     if features_df.empty or target_df.empty:
@@ -112,11 +114,12 @@ def binary_regression_classifier(X_train, X_validate, X_test, y_train, y_validat
     return model, feature_importance
 
 
-def main():
+def main(track):
     # 1. Read past performance for host race in csv format to put together entire data
+    #    Also read Results CSV and match the results to the PP. 
     #    into a single dataframe to begin ML - Train, Val, Test
 
-    df, field_map = run_data_prep()
+    df, field_map = run_data_prep(track)
 
     df.to_csv('pp_data.csv', index=False)
     print (f'Number of valid rows: {df.sum()}')
@@ -124,9 +127,9 @@ def main():
      # Prepare data for modeling
     X_train, X_validate, X_test, y_train, y_validate, y_test = prepare_data_for_modeling(df, field_map, target_column='res_finish')
 
-    print("Training describe", X_train.to_string())
-    print("Validation describe", X_validate.to_string())
-    print("Test describe", X_test.to_string())
+    #print("Training describe", X_train.to_string())
+    #print("Validation describe", X_validate.to_string())
+    #print("Test describe", X_test.to_string())
 
     X_train.to_csv('Train_data.csv', index=False)
 
@@ -149,4 +152,22 @@ def main():
     print ('Modeling Completed.')
 
 if __name__ == "__main__":
-    main()
+    #script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    script_dir = os.path.normpath(os.path.join(os.path.abspath(__file__), "..", ".."))
+    config_file_path = os.path.join(script_dir, '..', 'config.ini')
+
+    print(f"Script directory: {script_dir}")  # Print the script's directory
+    print(f"Config file path: {config_file_path}")  # Print the constructed path
+
+    # Check if the file exists:
+    if os.path.exists(config_file_path):
+        print("Config file exists!")
+    else:
+        print("Config file DOES NOT EXIST at the specified path!")
+
+    config = configparser.ConfigParser()
+    config.read(config_file_path)
+
+    track = config["DEFAULT"].get("track", "SA")
+     
+    main(track)

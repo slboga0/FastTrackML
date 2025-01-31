@@ -44,7 +44,7 @@ temp_directory = add_trailing_slash(os.path.join(current_working_directory, "Tem
 output_feature_dir = add_trailing_slash(os.path.join(output_directory, "Features"))
 #logging.debug("Output features Directory = ", temp_path)
 
-field_mapping_csv = "File_Format_Description.csv"
+field_mapping_csv = "fields_mapping.csv"
 
 # Feature processing parameters
 max_npp = 10

@@ -50,7 +50,7 @@ def load_single_card(pp_path, field_map, x):
     try:
         with open(pp_path, 'r') as f:
             for counter, line in enumerate(f, start=1):
-                print (f'Counter : {x}')
+                #print (f'Counter : {x}')
                 x = x + 1
                 line_split = line.strip().split(',')
                 record = {}

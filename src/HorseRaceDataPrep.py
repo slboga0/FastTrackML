@@ -1,13 +1,13 @@
+import configparser
 import datetime, argparse
 import logging, os, shutil
 from datetime import datetime
 
-from HorseRaceDataIngest import gen_features
+from HorseRaceDataIngest import load_data
 from HorseRaceDataUtilities import add_trailing_slash
 import HorseRaceParams
 
-def run_data_prep():
-
+def processor_setup():
     # Parse command line arguments
     parser = argparse.ArgumentParser(
         description='The program constructs a *.csv file from all historical data available in /inputs/<version>/')
@@ -33,9 +33,6 @@ def run_data_prep():
         os.makedirs(out_path)
 
     # Set-up logging (now that output and log is available)
-    # time_str = strftime('%Y_%b_%d_%H:%M:%S', gmtime())
-    # log_file = prm.path_log + 'run_bristools_' + time_str + '_log.txt'
-
     current_time = datetime.now().strftime("%Y_%b_%d_%H_%M_%S")
     log_filename = HorseRaceParams.log_directory + f"run_bristools_{current_time}_log.txt"
 
@@ -43,7 +40,6 @@ def run_data_prep():
     log_filename = log_filename.replace(":", "_").replace(" ", "_")
 
     configure_logging(log_filename)
-    # logging.basicConfig(filename=log_file, level=logging.INFO)
 
     # Create features directory (if necessary)
     out_path = HorseRaceParams.output_feature_dir
@@ -58,10 +54,7 @@ def run_data_prep():
         logging.info('Creating ' + out_path)
         os.makedirs(out_path)
 
-    # Generate features
-    data_frame, field_map = gen_features(HorseRaceParams, args.version)
-
-    return data_frame, field_map
+    return args.version
 
 def configure_logging(log_file):
     try:
@@ -83,5 +76,31 @@ def remove_directory(directory_path):
     except Exception as e:
         print(f"Error removing directory: {e}")
 
+def run_data_prep(track):
+    version_num = processor_setup()
+
+    data_frame, field_map = load_data(HorseRaceParams, version_num, track)
+
+    return data_frame, field_map
+
 if __name__ == '__main__':
-    run_data_prep()
+
+    #script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    script_dir = os.path.normpath(os.path.join(os.path.abspath(__file__), "..", ".."))
+    config_file_path = os.path.join(script_dir, '..', 'config.ini')
+
+    print(f"Script directory: {script_dir}")  # Print the script's directory
+    print(f"Config file path: {config_file_path}")  # Print the constructed path
+
+    # Check if the file exists:
+    if os.path.exists(config_file_path):
+        print("Config file exists!")
+    else:
+        print("Config file DOES NOT EXIST at the specified path!")
+
+    config = configparser.ConfigParser()
+    config.read(config_file_path)
+
+    track = config["DEFAULT"].get("track", "SA")
+
+    run_data_prep(track)

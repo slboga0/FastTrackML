@@ -147,7 +147,7 @@ def main():
     #unzip_all(r'C:\Users\SamBo\Projects\FastTrackML\data\raw', r'C:\Users\SamBo\Projects\FastTrackML\data\raw\archive')
 
     # Define file path for field mapping
-    field_mapping_csv = "File_Format_Description.csv"  # CSV containing all field mappings
+    field_mapping_csv = "fields_mapping.csv"  # CSV containing all field mappings
 
     # Example input line (mocked as a list of strings for demonstration)
     input_line = [""] * 1500  # Replace with actual input line split into fields.
